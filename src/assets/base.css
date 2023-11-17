@@ -1,0 +1,19 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+
+ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+button {
+  appearance: none;
+  border: none;
+  padding: 0;
+  background-color: transparent;
+}
