@@ -29,6 +29,14 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader'
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif|ogg|wav)$/i,
+        type: 'asset/resource'
+      },
+      {
+        test: /\.mp3$/i,
+        type: 'asset/resource'
       }
     ]
   },
