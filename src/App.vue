@@ -3,7 +3,7 @@
     <h1>Simon The Game</h1>
     <section>
       <h2 class="loose-message" :class="showLoseMessage ? 'visible' : ''">
-        Увы, вы проиграли после {{ score }} раундов
+        Увы, вы проиграли после {{ score }} раунд(-ов/-а)
       </h2>
       <div class="game">
         <ul class="game__btn-container">
@@ -14,7 +14,14 @@
         </ul>
         <div class="game__options">
           <p>Раунд: {{ score }}</p>
-          <button class="start-button" type="button" @click="startGame">Начать игру</button>
+          <button
+            :disabled="gameActive"
+            class="button start-button"
+            type="button"
+            @click="startGame"
+          >
+            Начать игру
+          </button>
           <ul>
             <li>
               <label for="easy">
@@ -56,6 +63,22 @@
               </label>
             </li>
           </ul>
+          <button
+            :disabled="!gameActive"
+            class="button restart-button"
+            @click="startGame"
+            type="button"
+          >
+            Заново
+          </button>
+          <button
+            v-if="gameActive"
+            class="button change-difficulty-button"
+            @click="resetTheGame"
+            type="button"
+          >
+            Сменить сложность
+          </button>
         </div>
       </div>
     </section>
@@ -89,9 +112,8 @@ export default {
         this.pushes++;
 
         if (areSequencesDifferent) {
-          this.gameActive = false;
+          this.resetTheGame();
           this.showLoseMessage = true;
-          this.pushes = 0;
         } else if (this.playerSequence.length === this.gameSequence.length) {
           this.score += 1;
           this.pushes = 0;
@@ -139,13 +161,18 @@ export default {
     },
     resetAllData() {
       this.showLoseMessage = false;
-      this.gameActive = true;
       this.gameSequence = [];
       this.playerSequence = [];
       this.score = 1;
       this.pushes = 0;
     },
+    resetTheGame() {
+      this.gameActive = false;
+      this.score = 0;
+      this.psuhes = 0;
+    },
     startGame() {
+      this.gameActive = true;
       this.resetAllData();
       this.createGameSequence();
       this.fireButtons();
@@ -241,6 +268,8 @@ h1 {
 
 .game__options {
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 p {
@@ -248,13 +277,26 @@ p {
   font-size: larger;
 }
 
-.start-button {
+.button {
   border-radius: 5px;
   padding: 10px 10px;
   margin-bottom: 10px;
+  margin-top: 10px;
+  border: 1px grey solid;
+  font-size: 16px;
+  max-width: 127px;
+}
+
+.button:disabled {
+  cursor: auto;
+}
+
+.start-button {
   background-color: darkcyan;
   color: white;
   font-size: 18px;
-  cursor: pointer;
+  margin-top: 0;
+  margin-bottom: 10px;
+  border: none;
 }
 </style>
